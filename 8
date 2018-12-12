@@ -1,0 +1,51 @@
+sales<-c(100,200,300,400,300)
+radio<-c(3000,400,600,800,900)
+tv<-c(10,20,30,40,50)
+newspaper<-c(450,340,320,890,876)
+
+survey<-data.frame(sales,radio,tv,newspaper)
+survey
+
+# To find VIF for newspaper
+model1<-lm(newspaper~radio+tv,survey)
+summary(model1)
+#Use R square value from summary of model1
+print(1/(1-0.7932))
+
+#Radio
+model2<-lm(radio~newspaper+tv,survey)
+summary(model2)
+print(1/(1-0.6468))
+
+#TV
+model3<-lm(tv~newspaper+radio,survey)
+summary(model3)
+print(1/(1-0.859))
+
+#  High leverage points
+# We will do for radio
+
+xbar<-mean(radio)
+den <- sum((survey$radio-xbar)^2)
+den
+
+n<-length(radio)
+n
+
+findComp2<-function(x){
+  return((1/n)+((x-xbar)*(x-xbar)/den))
+}
+
+high_val<-sapply(radio,findComp2)
+high_val
+
+#If high_val if greater than (p+1)/n , (p is 1 here because we use only radio)it is a high leverage point
+print('High leverage points are ')
+for(i in 1:n)
+{
+  if(high_val[i]>(2/n))
+    print(radio[i])
+}
+
+#Collinearity using correlation matrix.If value is close to 1 then they are correlated Eg: TV and newspaper
+cor(survey)
