@@ -1,0 +1,6 @@
+stu<-read.table("C:/Users/Devika/Documents/DA Lab/lab1.csv",header=TRUE,sep=",")
+stu
+library('sqldf')
+sqldf("SELECT USN,MAX(cie+ see*0.5) as total FROM stu ")
+sqldf("SELECT * FROM stu ")
+sqldf("SELECT usn, (cie+ see*0.5) AS TotalMark, CASE WHEN (cie+ see*0.5) > 84.5 THEN 'A' WHEN (cie+ see*0.5) < 84.5 AND (cie+ see*0.5) > 64.5 THEN 'B' WHEN (cie+ see*0.5) < 64.5 AND (cie+ see*0.5) > 49.5 THEN 'C' WHEN (cie+ see*0.5) < 49.5 AND (cie+ see*0.5) > 29.5 THEN 'D' ELSE 'E' END AS GRADE FROM stu;")
