@@ -1,0 +1,35 @@
+Age<-c(25,35,45,55,65)
+Loan<-c(900,850,600,1000,320)
+Gender<-c(1,0,1,1,0)
+Student<-c(1,0,0,0,0)
+Paid<-c(0,1,1,0,1)
+
+roster<-data.frame(Age ,Loan,Gender,Student,Paid)
+write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab4.csv")
+bank<-read.table("C:/Users/Devika/Documents/DA Lab/lab4.csv",header=TRUE,sep=",")
+bank
+x<- readline(prompt="Enter Age: ")
+x <- as.integer(x)
+y <- readline(prompt="Enter Loan Amount: ")
+y <- as.integer(y)
+
+dis <- transform(bank, distance= sqrt((x-bank$Age)^2+(y-bank$Loan)^2 ) )
+dis
+
+odis<- dis[order(dis$distance),c(5,6)]
+odis
+
+k<- readline(prompt="Enter k: ")
+
+# convert character into integer
+k <- as.integer(k)
+nn<-head(odis,k)
+K<-table(nn$Paid)
+nn
+K
+
+if(K[[1]][1]<K[[2]][1]){
+  print("yes")
+}else{
+  print("no")
+}
