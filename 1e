@@ -1,0 +1,34 @@
+USN<- c("100","101","102", "103", "104", "105")
+CIE <- c(50,46,34,43,41,39)
+SEE <- c(70,80,90,75,82,77)
+roster<-data.frame(USN,CIE,SEE)
+write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab1.csv")
+stu<-read.table("C:/Users/Devika/Documents/DA Lab/lab1.csv",header=TRUE,sep=",")
+stu
+
+t = stu$CIE + (stu$SEE * 0.5)
+t
+g = c()
+for(i in 1:length(t)){
+  if(t[i]>=90){
+    g[i]="A"
+  }
+  else if(t[i]>=80){
+    g[i]="B"
+  }
+  else if(t[i]>=70){
+    g[i]="C"
+  }
+  else if(total[i]>=60){
+    g[i]="D"
+  }
+  else if(total[i]>=50){
+    g[i]="E"
+  }else{
+    g[i]="F"
+  }
+}
+g
+max=which(t==max(t))
+print(max)
+print(stu$USN[max])
