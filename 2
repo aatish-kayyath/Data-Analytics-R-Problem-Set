@@ -1,0 +1,43 @@
+stu <-read.table("C:/Users/Devika/Documents/DA Lab/lab2.csv",header=TRUE,sep=",")
+stu
+
+#Check for impossible data for marks, gender, name fields
+invalid_marks <- subset(stu, select=c("name"), subset = (m1>100|m1<0|m2>100|m2<0|m3>100|m3<0))
+invalid_marks
+
+invalid_gen <- subset(stu, select=c("name"), subset = !(gender=="M"|gender=="F"))
+invalid_gen
+
+invalid_name <- subset(stu, select=c("name"), subset = (grepl("[^a-zA-Z]",name)))
+invalid_name
+
+#If marks field >100 and <0 replace them with NA (replace with 0 for finding avg)
+stu
+stu$m1[stu$m1>100|stu$m1<0] <- 0
+stu$m2[stu$m2>100|stu$m2<0] <- 0
+stu$m3[stu$m1>100|stu$m3<0] <- 0
+stu
+
+#If gender col has “f”/ "m" replace with “F” / "M"
+#stu$Gender <- gsub('f','F',stu$Gender)
+stu$gender[stu$gender=="f"|stu$gender=="female"] <- 'F'
+stu$gender[stu$gender=="m"|stu$gender=="male"] <- 'M'
+stu
+
+#Name col should not have special char, numbers - omit
+stu$name <- gsub("[$@*&|0-9]","",stu$name)
+stu
+
+#Store student marks semester wise and calculate average
+mean(stu$m1)
+mean(stu$m2)
+mean(stu$m3)
+
+#Do above operations with SQL queries in R.
+library('sqldf')
+sqldf('select m1 from stu where m1>100 OR m1<0 ')
+sqldf('select m2 from stu where m2>100 OR m2<0 ')
+sqldf('select m3 from stu where m3>100 OR m3<0 ')
+sqldf('select name from stu where name like "%$%" UNION select name from stu where name like "%&%" ')
+sqldf('select (m1+m2+m3)/3 as avg from stu')
+sqldf('select gender from stu where gender!="F" and gender!="M" ')
