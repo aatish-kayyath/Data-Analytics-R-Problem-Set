@@ -1,0 +1,30 @@
+media_used_for_advertisement<-c("TV","Radio","Newspaper","Twitter","Facebook")
+Budget<-c(1000,700,750,1500,600)
+Sales<-c(150,100,70,120,170)
+roster<-data.frame(media_used_for_advertisement,Budget,Sales)
+write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab3.csv")
+lr<-read.table("C:/Users/Devika/Documents/DA Lab/lab3.csv",header=TRUE,sep=",")
+lr
+
+budget <-mean(lr$Budget)
+sales <- mean(lr$Sales)
+
+num = sum ((lr$Budget - budget) * (lr$Sales -sales) )
+den = sum((lr$Budget - budget) ^2)
+b1= num/den
+b0 = sales - b1  * budget
+
+lr$pred = b0 + b1 * lr$Budget
+lr
+
+rss = sum (( lr$Sales - lr$pred )^2)
+rss
+tss = sum((lr$Sales - sales)^2)
+tss
+rse = sqrt(rss/(nrow(lr)-2))
+rse
+se = 1 -(rss/tss)
+se
+
+plot(lr$Budget, lr$Sales)
+lines(lr$Budget, lr$pred)
