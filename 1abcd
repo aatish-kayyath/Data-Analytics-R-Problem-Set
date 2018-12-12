@@ -1,0 +1,31 @@
+usn <- c("100","101","102", "103", "104", "105")
+cie <- c(50,46,34,43,41,39)
+see <- c(70,80,90,75,82,77)
+total = cie + ( 0.5 * see)
+total
+
+# c) Find student grades in each subject
+grade = c()
+for(i in 1:length(total)){
+  if(total[i]>=90){
+    grade[i]="A"
+  }
+  else if(total[i]>=80){
+    grade[i]="B"
+  }
+  else if(total[i]>=70){
+    grade[i]="C"
+  }
+  else if(total[i]>=60){
+    grade[i]="D"
+  }
+  else if(total[i]>=50){
+    grade[i]="E"
+  }else{
+    grade[i]="F"
+  }
+}
+grade
+maxi=which(total==max(total))
+print(maxi)
+print(usn[maxi])
