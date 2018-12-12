@@ -1,35 +1,30 @@
-Age<-c(25,35,45,55,65)
-Loan<-c(900,850,600,1000,320)
-Gender<-c(1,0,1,1,0)
-Student<-c(1,0,0,0,0)
-Paid<-c(0,1,1,0,1)
-
-roster<-data.frame(Age ,Loan,Gender,Student,Paid)
-write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab4.csv")
-bank<-read.table("C:/Users/Devika/Documents/DA Lab/lab4.csv",header=TRUE,sep=",")
-bank
-x<- readline(prompt="Enter Age: ")
-x <- as.integer(x)
-y <- readline(prompt="Enter Loan Amount: ")
-y <- as.integer(y)
-
-dis <- transform(bank, distance= sqrt((x-bank$Age)^2+(y-bank$Loan)^2 ) )
-dis
-
-odis<- dis[order(dis$distance),c(5,6)]
-odis
-
-k<- readline(prompt="Enter k: ")
-
+Month<-c("Jan","Feb","Mar","Apr","May","Jun")
+TV<-c(1000,900,800,700,750,600)
+Radio<-c(450,320,830,700,670,540)
+Sales<-c(150,120,130,100,170,140)
+roster<-data.frame(Month,TV,Radio,Sales)
+write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab5.csv")
+ds <- read.csv('C:/Users/Devika/Documents/DA Lab/lab5.csv')
+ds
+x1=mean(ds$TV)
+x2= mean(ds$Radio)
+y=mean(ds$Sales)
+num1 = sum((ds$TV-x1)*(ds$Sales-y))
+deno1 = sum((ds$TV-x1)^2)
+num2 = sum((ds$Radio-x2)*(ds$Sales-y))
+deno2 = sum((ds$Radio-x2)^2)
+b1=num1/deno1
+b2= num2/deno2
+b0 = y- x1*b1-x2*b2
+ds$ypred =  b0 + b1*ds$TV+ b2*ds$Radio
+ds
+x1<- readline(prompt="Enter TV Budget: ")
 # convert character into integer
-k <- as.integer(k)
-nn<-head(odis,k)
-K<-table(nn$Paid)
-nn
-K
+x1 <- as.integer(x1)
+x1
+x2<- readline(prompt="Enter Radio Budget: ")
+x2 <- as.integer(x2)
+x2
 
-if(K[[1]][1]<K[[2]][1]){
-  print("yes")
-}else{
-  print("no")
-}
+y <- b0 + b1 * x1 + b2 * x2
+y
