@@ -1,0 +1,45 @@
+budget<-c(1000,500,2000,800,900,5000,2500)
+sales_increased<-c(1,0,1,0,1,1,1)
+roster<-data.frame(budget,sales_increased)
+write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab7.csv")
+survey<-read.csv("C:/Users/Devika/Documents/DA Lab/lab7.csv",header = TRUE,sep = ",")
+survey
+
+find<-function(x)
+{
+  if(x=="Yes")
+    return(1)
+  else
+    return(0)
+}
+
+survey$sales_increase<-sapply(survey$sales_increase,find)
+
+# Fitting Logistic Regression to the Training set
+classifier = glm(formula = sales_increase~ budget,family = binomial,data = survey)
+
+classifier$coefficients
+b1<-unname(classifier$coefficients["budget"])
+b1
+b0<-unname(classifier$coefficients["(Intercept)"])
+b0
+
+#x1<-32
+x1<-700
+
+b0 + b1*x1
+
+exp(b0 + b1*x1)
+p_x<-exp(b0 + b1*x1)/(1+exp(b0 +  b1*x1))
+p_x
+
+if(p_x>=0.5){
+  print("yes")
+}else{
+  print("no")
+}
+
+odds<-p_x/(1-p_x)
+odds
+log_odds<-log(odds)
+log_odds
