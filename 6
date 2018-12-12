@@ -1,0 +1,58 @@
+name<-c('a','b','c','d','e','f')
+age<-c(34,22,36,34,76,44)
+cards<-c(5,2,4,5,6,8)
+education<-c("be","btech","mba","mca","bca","be")
+income<-c(2000,4000,5000,6000,3500,7000)
+limit<-c(1000,2000,2500,5000,1500,5000)
+rating<-c(5,2,7,5,4,6)
+balance<-c(6000,2000,3500,6500,4000,4500)
+gender<-c('f','m','f','f','m','m')
+student<-c("no","yes","no","yes","no","no")
+status<-c("m","nm","m","nm","m","nm")
+ethnicity<-c("American","caucasian","African","American","African","caucasian")
+roster<-data.frame(name,age,cards,education,income,limit,rating,balance,gender,student,status,ethnicity)
+write.csv(roster,file="C:/Users/Devika/Documents/DA Lab/lab6.csv")
+ds <- read.csv('C:/Users/Devika/Documents/DA Lab/lab6.csv')
+ds
+ds$student = gsub('yes',1,ds$student)
+ds$student = gsub('no',0,ds$student)
+ds$ethnicity = gsub('caucasian',1,ds$ethnicity)
+ds$ethnicity = gsub('American',-1,ds$ethnicity)
+ds$ethnicity = gsub('African',0,ds$ethnicity)
+ds$gender = gsub('f',1,ds$gender)
+ds$gender = gsub('m',0,ds$gender)
+ds
+
+# balance = b0 + b1*student + b2*income
+x1 = mean(as.integer(ds$student))
+x2 = mean(ds$income)
+y = mean(ds$balance)
+num1 = sum(((as.integer(ds$student))-x1)*(ds$balance-y))
+deno1= sum(((as.integer(ds$student))-x1)^2)
+b1 = num1/deno1
+num2 = sum((ds$income-x2)*(ds$balance-y))
+deno2= sum((ds$income-x2)^2)
+b2 = num2/deno2
+b0 = y - b1*x1 - b2*x2
+ds$balance_pred_1= b0 + b1*(as.integer(ds$student)) + b2*ds$income
+ds
+
+# balance = b0 + b1*gender
+x = mean(as.integer(ds$gender))
+y = mean(ds$balance)
+num = sum(((as.integer(ds$gender))-x1)*(ds$balance-y))
+deno= sum(((as.integer(ds$gender))-x1)^2)
+b1 = num/deno
+b0 = y - b1*x
+ds$balance_pred_2= b0 + b1*(as.integer(ds$gender))
+ds
+
+# balance = b0 + b1*ethnicity
+x = mean(as.integer(ds$ethnicity))
+y = mean(ds$balance)
+num = sum(((as.integer(ds$ethnicity))-x1)*(ds$balance-y))
+deno= sum(((as.integer(ds$ethnicity))-x1)^2)
+b1 = num/deno
+b0 = y - b1*x
+ds$balance_pred_3= b0 + b1*(as.integer(ds$ethnicity))
+ds
